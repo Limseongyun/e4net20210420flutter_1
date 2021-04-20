@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_e4net_1/learn_flutter/posts.dart';
 
 main(){
   runApp(MyMaterial());
@@ -34,6 +35,14 @@ class MyStateless extends StatelessWidget {
               ElevatedButton(
                   onPressed: (){
                     print('posts tap!');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) {
+                              return Posts();
+                            },
+                        ),
+                    );
                   },
                   child: Text('posts'),
                   style: ElevatedButton.styleFrom(
