@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_e4net_1/learn_flutter/form_example.dart';
 import 'package:flutter_e4net_1/learn_flutter/posts.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 main(){
   runApp(MyMaterial());
@@ -90,14 +92,41 @@ class MyStateless extends StatelessWidget {
                       child: Text('AlertDialog'),
                   ),
                   TextButton(
-                      onPressed: (){},
+                      onPressed: (){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                duration: Duration(seconds: 3),
+                                content: Text('imSnackBar')
+                            ),
+                        );
+                      },
                       child: Text('snackBar')
                   ),
                   FloatingActionButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      // Fluttertoast.showToast(
+                      //   msg: 'This is Center Short Toast',
+                      //   toastLength: Toast.LENGTH_LONG,
+                      //   gravity: ToastGravity.BOTTOM,
+                      //   backgroundColor: Colors.grey,
+                      //   textColor: Colors.black,
+                      //   fontSize: 16.0
+                      // );
+                    },
                     child: Text('Toast'),
                   )
                 ],
+              ),
+              ElevatedButton(
+                  onPressed: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return FormExam();
+                        }),
+                    );
+                  },
+                  child: Text('FormExample')
               ),
               IconButton(
                   icon: Icon(Icons.videogame_asset),
