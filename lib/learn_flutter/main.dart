@@ -60,7 +60,33 @@ class MyStateless extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                      onPressed: (){},
+                      onPressed: () async {
+                        var res = await showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Alert Diaolog Test'),
+                              content: Text('MyContent'),
+                              actions: [
+                                TextButton(
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('취소하기')
+                                ),
+                                TextButton(
+                                    onPressed: (){
+                                      Navigator.pop(context,'Result');
+                                    },
+                                    child: Text('제출')
+                                )
+                              ],
+                            );
+                        },
+                        );
+                        print('Alert Dialog 결과값 : $res');
+                      },
                       child: Text('AlertDialog'),
                   ),
                   TextButton(
