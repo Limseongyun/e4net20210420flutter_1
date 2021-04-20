@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_e4net_1/learn_flutter/post_detail.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -32,7 +33,6 @@ class _PostsState extends State<Posts> {
     super.initState();
     print('initState');
     jsonHandler();
-
   }
 
   jsonHandler() async {
@@ -77,8 +77,17 @@ class _PostsState extends State<Posts> {
         ):ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
+          itemCount: myLists.length,
           itemBuilder: (context, index) {
             return ListTile(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return PostDetail(myPost: myLists[index]);
+                    },),
+                );
+              },
               trailing: IconButton(
                 icon: myLists[index].isFav ? Icon(Icons.favorite): Icon(Icons.favorite_border),
                 onPressed: (){
