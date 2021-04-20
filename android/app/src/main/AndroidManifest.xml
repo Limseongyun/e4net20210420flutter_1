@@ -2,7 +2,7 @@
     package="net.e4net.flutter_e4net_1">
    <application
         android:label="flutter_e4net_1"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
