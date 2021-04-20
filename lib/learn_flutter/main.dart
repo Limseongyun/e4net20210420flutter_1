@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_e4net_1/learn_flutter/form_example.dart';
 import 'package:flutter_e4net_1/learn_flutter/posts.dart';
+import 'package:flutter_e4net_1/learn_flutter/simple_game.dart';
+import 'package:flutter/services.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
 main(){
@@ -130,7 +132,16 @@ class MyStateless extends StatelessWidget {
               ),
               IconButton(
                   icon: Icon(Icons.videogame_asset),
-                  onPressed: (){}
+                  onPressed: () async {
+                    var res = await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return SimpleGame();
+                        }),
+                    );
+                    print('asdfasdf $res');
+                    SystemChrome.setPreferredOrientations(DeviceOrientation.values.toList());
+                  }
                   )
             ],
           ),
