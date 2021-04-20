@@ -97,7 +97,7 @@ class _SimpleGameState extends State<SimpleGame> {
           cardSelectHandler(whoIsJoker);
       },
       child: Text(
-        whoIsJoker ? '🃟' : '🂠',
+        whoIsJoker && !gaming ? '🃟' : '🂠',
         style: TextStyle(fontSize: 150),
         textAlign: TextAlign.center,
       ),
@@ -159,6 +159,7 @@ class _SimpleGameState extends State<SimpleGame> {
             gaming = true;
             cardResultOff = true;
           });
+          await Future.delayed(Duration(milliseconds: 300));
           for(int i = 0; i < 5; i++){
             changeCard();
             print('1');
