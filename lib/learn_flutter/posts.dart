@@ -7,8 +7,9 @@ class JsonTest{
   final int id;
   final String title;
   final String body;
+  bool isFav = false;
 
-  const JsonTest({this.userId, this.id, this.title, this.body});
+  JsonTest({this.userId, this.id, this.title, this.body});
 
   factory JsonTest.fromJson(Map<String,dynamic> json){
     return JsonTest(userId: json['userId'],body: json['body'],
@@ -23,18 +24,25 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+  List<JsonTest> myLists = [];
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     print('initState');
+    jsonHandler();
+
   }
 
   jsonHandler() async {
+
+    myLists.clear();
+    setState(() {
+      isLoading = true;
+    });
     var uri = Uri.https('jsonplaceholder.typicode.com','/posts');
-
     var response = await http.get(uri);
-
     if(response.statusCode == 200){
       print('body : ${response.body}, type: ${response.body.runtimeType}');
       var decoded = convert.jsonDecode(response.body);
@@ -42,7 +50,11 @@ class _PostsState extends State<Posts> {
       if(decoded is List){
         decoded.forEach((val) {
           JsonTest json = JsonTest.fromJson(val);
-          print('json> $json, json type> ${json.runtimeType}');
+          myLists.add(json);
+        });
+        print(myLists.length);
+        setState(() {
+          isLoading = false;
         });
       } else {
         JsonTest json = JsonTest.fromJson(decoded);
@@ -60,10 +72,33 @@ class _PostsState extends State<Posts> {
         title: Text('Posts'),
       ),
       body: Container(
-        child: ListView.builder(
-            itemBuilder: (context, index) {
-
-            },
+        child: isLoading ? Center(
+          child: CircularProgressIndicator(),
+        ):ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            return ListTile(
+              trailing: IconButton(
+                icon: myLists[index].isFav ? Icon(Icons.favorite): Icon(Icons.favorite_border),
+                onPressed: (){
+                  setState(() {
+                    myLists[index].isFav = !myLists[index].isFav;
+                  });
+                },
+              ),
+              title: Text(
+                myLists[index].title,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+              subtitle: Text(
+                myLists[index].body,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            );
+          },
         ),
       ),
     );
