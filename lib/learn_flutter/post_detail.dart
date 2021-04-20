@@ -11,7 +11,23 @@ class PostDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text('Post Detail'),
       ),
-      body: Container(),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('id : ${myPost.id}'),
+              Divider(),
+              Text('userId : ${myPost.userId}'),
+              Divider(),
+              Text('title : ${myPost.title}'),
+              Divider(),
+              Text('body :\n${myPost.body}'),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
