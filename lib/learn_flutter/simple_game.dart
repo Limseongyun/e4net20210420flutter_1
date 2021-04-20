@@ -10,6 +10,14 @@ class SimpleGame extends StatefulWidget {
 
 class _SimpleGameState extends State<SimpleGame> {
 
+  int gameSpeed = 450;
+  int nowLevel = 1;
+  int correctCnt = 0;
+  bool maxLevel = false;
+
+  bool gaming = false;
+  bool answer = false;
+
   Alignment card1 = Alignment(-0.7, -0.5);
   Alignment card2 = Alignment(0.0, -0.5);
   Alignment card3 = Alignment(0.7, -0.5);
@@ -21,6 +29,9 @@ class _SimpleGameState extends State<SimpleGame> {
   bool firstJoker = false;
   bool secondJoker = false;
   bool thirdJoker = false;
+
+  bool cardSelectOff = true;
+  bool cardResultOff = true;
 
   @override
   void initState() {
@@ -69,6 +80,17 @@ class _SimpleGameState extends State<SimpleGame> {
     });
   }
 
+  changeCard(){
+    var rand = Random().nextInt(3);
+    if(rand == 0){
+      oneToTwo();
+    } else if(rand == 1){
+      twoToThree();
+    }else {
+      oneToThree();
+    }
+  }
+
   Widget getMyCard(bool whoIsJoker){
     return InkWell(
       onTap: (){},
@@ -81,17 +103,26 @@ class _SimpleGameState extends State<SimpleGame> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     //,🂠,🃟
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          // oneToTwo();
-          // twoToThree();
-          // oneToThree();
+        onPressed: gaming ? (){} : () async {
+          setState(() {
+            gaming = true;
+          });
+          for(int i = 0; i < 5; i++){
+            changeCard();
+            await Future.delayed(Duration(milliseconds: 1300));
+          }
+
+          setState(() {
+            cardSelectOff = false;
+          });
         },
-        child: Text('GO'),
+        child: gaming ? CircularProgressIndicator(backgroundColor: Colors.white,) : Text('GO'),
       ),
       appBar: AppBar(),
       body: Stack(
@@ -127,7 +158,7 @@ class _SimpleGameState extends State<SimpleGame> {
             ),
           ),
           Offstage(
-            offstage: false,
+            offstage: cardSelectOff,
             child: Align(
               alignment: Alignment.topCenter,
               child: Text(
@@ -137,7 +168,7 @@ class _SimpleGameState extends State<SimpleGame> {
             ),
           ),
           Offstage(
-            offstage: false,
+            offstage: cardResultOff,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Text('정답 또는 오답',
