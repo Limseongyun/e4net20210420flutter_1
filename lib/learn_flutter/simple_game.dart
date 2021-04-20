@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,6 +18,10 @@ class _SimpleGameState extends State<SimpleGame> {
   Alignment secondCardState;
   Alignment thirdCardState;
 
+  bool firstJoker = false;
+  bool secondJoker = false;
+  bool thirdJoker = false;
+
   @override
   void initState() {
     super.initState();
@@ -23,6 +29,17 @@ class _SimpleGameState extends State<SimpleGame> {
     firstCardState = card1;
     secondCardState = card2;
     thirdCardState = card3;
+    var rand = Random().nextInt(3);
+    print(rand);
+    setState(() {
+      if(rand == 0){
+        firstJoker = true;
+      } else if(rand ==1){
+        secondJoker = true;
+      } else {
+        thirdJoker = true;
+      }
+    });
   }
 
   oneToTwo(){
@@ -52,11 +69,11 @@ class _SimpleGameState extends State<SimpleGame> {
     });
   }
 
-  Widget getMyCard(){
+  Widget getMyCard(bool whoIsJoker){
     return InkWell(
       onTap: (){},
       child: Text(
-        '🂠',
+        whoIsJoker ? '🃟' : '🂠',
         style: TextStyle(fontSize: 150),
         textAlign: TextAlign.center,
       ),
@@ -85,8 +102,8 @@ class _SimpleGameState extends State<SimpleGame> {
             child: Container(
               width: 150,
               height: 200,
-              color: Colors.red,
-              child: getMyCard(),
+              // color: Colors.red,
+              child: getMyCard(firstJoker),
             ),
           ),
           AnimatedContainer(
@@ -95,7 +112,8 @@ class _SimpleGameState extends State<SimpleGame> {
             child: Container(
               width: 150,
               height: 200,
-              color: Colors.green,
+              // color: Colors.green,
+              child: getMyCard(secondJoker),
             ),
           ),
           AnimatedContainer(
@@ -104,9 +122,30 @@ class _SimpleGameState extends State<SimpleGame> {
             child: Container(
               width: 150,
               height: 200,
-              color: Colors.blue,
+              // color: Colors.blue,
+              child: getMyCard(thirdJoker),
             ),
-          )
+          ),
+          Offstage(
+            offstage: false,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                  '카드를 선택해주세요',
+                style: TextStyle(fontSize: 40),
+              ),
+            ),
+          ),
+          Offstage(
+            offstage: false,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Text('정답 또는 오답',
+              style: TextStyle(
+                  fontSize: 40
+              ),),
+            ),
+          ),
         ],
       ),
     );
